@@ -3,19 +3,40 @@
         <h1 class="title">Pull to Refresh!</h1>
     </ion-header-bar>
     <ion-nav-buttons side="right">
-        <button class="button" ng-click="addRestaurante();">
+        <button class="button" ng-click="addRestaurante(false);">
             Novo
         </button>
     </ion-nav-buttons>
     <ion-content>
         <ion-refresher pulling-text="Pull to refresh" on-refresh="refreshList()">
         </ion-refresher>
-        <ion-list>
-            <ion-item ng-repeat="restaurante in restaurantes" href="#/app/restaurantes/{{restaurante.id}}">
-                {{restaurante.Nome}}<br />
-                {{restaurante.Cozinha}}<br />
+        <!--href="#/app/restaurantes/{{restaurante.id}}"-->
+        <!--<i class="icon ion-checkmark"></i>-->
+
+        <!--<ion-list option-buttons="itemButtons" can-swipe="true" >
+
+        
+            <ion-item ng-repeat="restaurante in restaurantes"  itemtype="item item-icon-right" ng-click="teste(this);">
+                {{restaurante.Nome}} - {{restaurante.Cozinha}} 
+                
+                <div class="assertRight"><button class=" button button-assertive" style="min-width:40px;min-height:40px;"  ng-click="deleteRestaurante({{restaurante.id}});">X</button></div>
+
+                
             </ion-item>
-        </ion-list>
+        </ion-list>-->
+        
+            <!--<ion-scroll direction="y" class="available-scroller">-->
+                <div collection-repeat="restaurante in restaurantes"
+                     item-width="50%" item-height="20%" style="border:solid;" >
+                    
+                    {{restaurante.Nome}} - {{restaurante.Cozinha}}
+                    
+                    <div class="dotsIcon" ng-click="addRestaurante(true);"></div>
+                </div>
+            <!--</ion-scroll>-->
+       
+
+        <!--</ion-listoption-buttons="itemButtons">-->
     </ion-content>
 </ion-view>
 

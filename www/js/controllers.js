@@ -63,24 +63,24 @@ angular.module('mica.controllers', [])
     const restaurantListConst = 'restaurantListConst';
     $scope.restaurantes = [];
     $scope.restauranteData = {};
-    $scope.novoRestaurante = {};
 
-    //alert($scope.novoRestaurante);
-    //if ($scope.novoRestaurante != null) {
-    //    $scope.restaurantes.push($scope.novoRestaurante);
-    //    $scope.novoRestaurante = null;
-    //}
+    // Define item buttons
+    $scope.itemButtons = [{
+        text: 'Delete',
+        type: 'button-assertive',
+        onTap: function (item) {
+            alert();
+            //$scope.removeItem(item);
+        }
+    }, {
+        text: 'Edit',
+        type: 'button-calm',
+        onTap: function (item) {
+            //$scope.showEditItem(item);
+            alert();
+        }
+    }];
 
-    //alert($scope.novoRestaurante);
-   
-
-  //  $scope.restaurantes = [
-  //{ Nome: 'um', id: 1, Cozinha: "Burger" },
-  //{ Nome: 'dois', id: 2, Cozinha: "Japones" },
-  //{ Nome: 'tres', id: 3, Cozinha: "Italiano" },
-  //{ Nome: 'quatro', id: 4, Cozinha: "Burger" }
-  //  ];
- 
     $scope.closeAddRestaurante = function () {
         $scope.modal.hide();
     };
@@ -89,6 +89,7 @@ angular.module('mica.controllers', [])
         if (window.localStorage[restaurantListConst] != null) {
             
             $scope.restaurantes = JSON.parse(window.localStorage[restaurantListConst] || '{}');;
+            
         }
         else {
             $scope.restaurantes = [
@@ -100,9 +101,33 @@ angular.module('mica.controllers', [])
         }  
     };
 
-    $scope.addRestaurante = function () {
+    $scope.addRestaurante = function (edit) {
+        $scope.isEdit = edit;
+        var app = angular.module('mica', ['ionic', 'mica.controllers']);
+        
+        $scope.modal.show();
+        $scope.isEdit = edit;
+    };
+
+    $scope.edit = function () {
+        $scope.restauranteData.Nome = "vamos ver";
+        $scope.restauranteData.Cozinha = "aaaaa";
+        $scope.restauranteData.id = 20;
         $scope.modal.show();
     };
+
+    $scope.deleteRestaurante = function (id) {
+        var idDelete = 0;
+        for (var i = 0; i < $scope.restaurantes.length; i++) {
+            if ($scope.restaurantes[i].id == id) {
+                $scope.restaurantes.splice(i, 1);
+                continue;
+            }
+        }
+
+        window.localStorage[restaurantListConst] = JSON.stringify($scope.restaurantes);
+    };
+    
 
     $scope.refreshList = function () {
         $scope.restaurantes = JSON.parse(window.localStorage[restaurantListConst] || '{}');;
@@ -110,19 +135,34 @@ angular.module('mica.controllers', [])
     };
 
     $scope.saveRestaurante = function () {
-        $scope.novoRestaurante =
+        var highestId = 0;
+        for (var i = 0; i < $scope.restaurantes.length; i++) {
+            if ($scope.restaurantes[i].id > highestId) {
+                highestId = $scope.restaurantes[i].id;
+            }
+        }
+        highestId++;
+
+        var novoRestaurante =
         {
             Nome: $scope.restauranteData.Nome
-            , id: 0
+            , id: highestId
             , Cozinha: $scope.restauranteData.Cozinha
         };
 
-        $scope.restaurantes.push($scope.novoRestaurante);
+        $scope.restaurantes.push(novoRestaurante);
         window.localStorage[restaurantListConst] = JSON.stringify($scope.restaurantes);
 
         $scope.closeAddRestaurante();
     };
 
+    $scope.teste = function (obj) {
+        alert(obj);
+        $scope.edit();
+    }
+
+
+    // Doc Ready
     if ($scope.restaurantes.length == 0) {
         $scope.loadRestaurantesList();
     }

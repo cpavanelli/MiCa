@@ -1,1 +1,16 @@
 /* Empty. Add your own CSS if you like */
+.assertRight{
+     float: right;
+     width:20px;
+     height:30px;
+     right:20px;
+}
+
+
+.dotsIcon{
+     background-image:url("../img/dots.png");
+     width:30px;
+     height:40px;
+     float: right;
+     top:50px;
+}
